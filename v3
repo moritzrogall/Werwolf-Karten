@@ -1,0 +1,132 @@
+<!-- PWA Meta Tags für iPhone -->
+
+<link
+  rel="apple-touch-icon"
+  href="data:image/svg+xml;base64,CjxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMjAwIDIwMCc+CiAgPHJlY3Qgd2lkdGg9JzIwMCcgaGVpZ2h0PScyMDAnIHJ4PSc0MCcgZmlsbD0nIzFhMTUyYScvPgogIDx0ZXh0IHg9JzUwJScgeT0nNTUlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LXNpemU9JzEyMCcgZHk9Jy4zZW0nPvCfkLo8L3RleHQ+Cjwvc3ZnPgo="
+/>
+<link
+  rel="manifest"
+  href="data:application/manifest+json;base64,eyJuYW1lIjogIldlcndvbGYgS2FydGVuIiwgInNob3J0X25hbWUiOiAiV2Vyd29sZiIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGIwYjEyIiwgInRoZW1lX2NvbG9yIjogIiMwYjBiMTIiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxDanh6ZG1jZ2VHMXNibk05SjJoMGRIQTZMeTkzZDNjdWR6TXViM0puTHpJd01EQXZjM1puSnlCMmFXVjNRbTk0UFNjd0lEQWdNakF3SURJd01DYytDaUFnUEhKbFkzUWdkMmxrZEdnOUp6SXdNQ2NnYUdWcFoyaDBQU2N5TURBbklISjRQU2MwTUNjZ1ptbHNiRDBuSXpGaE1UVXlZU2N2UGdvZ0lEeDBaWGgwSUhnOUp6VXdKU2NnZVQwbk5UVWxKeUIwWlhoMExXRnVZMmh2Y2owbmJXbGtaR3hsSnlCbWIyNTBMWE5wZW1VOUp6RXlNQ2NnWkhrOUp5NHpaVzBuUHZDZmtMbzhMM1JsZUhRK0Nqd3ZjM1puUGdvPSIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCJ9XX0="
+/>
+
+<div class="app">
+  <header>
+    <div class="logo">🌙</div>
+    <div>
+      <h1>Werwolf Karten</h1>
+      <p class="lead">Mobile</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- PREP CARD -->
+    <section id="prepCard" class="card section">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div style="font-weight: 700">Vorbereitung</div>
+      </div>
+
+      <div style="margin-left: 290px" class="row">
+        <div class="small">Gesamt-Karten</div>
+        <div id="totalCards" style="font-weight: 700; margin-left: 100">0</div>
+      </div>
+
+      <div class="roles-list" id="rolesList"></div>
+
+      <div style="margin-top: 15px" class="row">
+        <input
+          id="customRoleName"
+          placeholder="Eigene Rolle (z. B. Spion)"
+          type="text"
+        />
+        <input
+          id="customRoleEmoji"
+          placeholder="Emoji"
+          type="text"
+          style="width: 84px"
+        />
+      </div>
+      <div style="margin-top: 8px" class="row">
+        <button id="addCustomRoleBtn" class="btn-ghost">
+          + Rolle hinzufügen
+        </button>
+      </div>
+
+      <div style="margin-top: 10px" class="row">
+        <button id="toPlayersBtn" class="btn">Weiter zu Spielern</button>
+        <button id="resetRolesBtn" class="btn-ghost">Zurücksetzen</button>
+      </div>
+    </section>
+
+    <!-- PLAYERS CARD -->
+    <section id="playersCard" class="card section" style="display: none">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div style="font-weight: 700">Spieler</div>
+        <div class="small">Gib Namen für jede Karte ein</div>
+      </div>
+
+      <div class="players-grid" id="playersGrid"></div>
+
+      <div style="margin-top: 10px" class="row">
+        <button id="assignBtn" class="btn">
+          Rollen zufällig zuweisen & Spiel starten
+        </button>
+        <button id="backToPrepBtn" class="btn-ghost">Neue Runde</button>
+      </div>
+    </section>
+
+    <!-- GAME CARD -->
+    <section id="gameCard" class="card section" style="display: none">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div style="font-weight: 700">Karten verteilen</div>
+        <div class="small" id="progressLabel">0 / 0</div>
+      </div>
+
+      <div class="small" style="margin-top: 6px"></div>
+
+      <div class="game-area">
+        <div id="deckWrap" class="deck center"></div>
+
+        <div class="controls" style="width: 100%">
+          <div class="row">
+            <button id="prevBtn" class="btn-ghost">Zurück</button>
+            <button id="nextBtn" class="btn">Nächster Spieler</button>
+          </div>
+          <div class="row">
+            <button id="revealBtn" class="btn-ghost">
+              Karten erneut anzeigen
+            </button>
+            <button id="masterBtn" class="btn-ghost">
+              Spielleiter-Übersicht
+            </button>
+          </div>
+          <div class="row">
+            <button id="toPrepBtn" class="btn-ghost">Neue Runde</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINISH / summary - hidden rendered dynamically -->
+  </main>
+</div>
+
+<!-- modal container -->
+<div id="modalRoot"></div>
