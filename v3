@@ -1,14 +1,85 @@
-<!-- PWA Meta Tags für iPhone -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Werwolf Karten</title>
 
+<!-- PWA Meta Tags für iPhone -->
 <link
   rel="apple-touch-icon"
-  href="data:image/svg+xml;base64,CjxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMjAwIDIwMCc+CiAgPHJlY3Qgd2lkdGg9JzIwMCcgaGVpZ2h0PScyMDAnIHJ4PSc0MCcgZmlsbD0nIzFhMTUyYScvPgogIDx0ZXh0IHg9JzUwJScgeT0nNTUlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LXNpemU9JzEyMCcgZHk9Jy4zZW0nPvCfkLo8L3RleHQ+Cjwvc3ZnPgo="
-/>
+  href="data:image/svg+xml;base64,CjxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMjAwIDIwMCc+CiAgPHJlY3Qgd2lkdGg9JzIwMCcgaGVpZ2h0PScyMDAnIHJ4PSc0MCcgZmlsbD0nIzFhMTUyYScvPgogIDx0ZXh0IHg9JzUwJScgeT0nNTUlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LXNpemU9JzEyMCcgZHk9Jy4zZW0nPvCfkLo8L3RleHQ+Cjwvc3ZnPgo=" />
 <link
   rel="manifest"
-  href="data:application/manifest+json;base64,eyJuYW1lIjogIldlcndvbGYgS2FydGVuIiwgInNob3J0X25hbWUiOiAiV2Vyd29sZiIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGIwYjEyIiwgInRoZW1lX2NvbG9yIjogIiMwYjBiMTIiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxDanh6ZG1jZ2VHMXNibk05SjJoMGRIQTZMeTkzZDNjdWR6TXViM0puTHpJd01EQXZjM1puSnlCMmFXVjNRbTk0UFNjd0lEQWdNakF3SURJd01DYytDaUFnUEhKbFkzUWdkMmxrZEdnOUp6SXdNQ2NnYUdWcFoyaDBQU2N5TURBbklISjRQU2MwTUNjZ1ptbHNiRDBuSXpGaE1UVXlZU2N2UGdvZ0lEeDBaWGgwSUhnOUp6VXdKU2NnZVQwbk5UVWxKeUIwWlhoMExXRnVZMmh2Y2owbmJXbGtaR3hsSnlCbWIyNTBMWE5wZW1VOUp6RXlNQ2NnWkhrOUp5NHpaVzBuUHZDZmtMbzhMM1JsZUhRK0Nqd3ZjM1puUGdvPSIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCJ9XX0="
-/>
+  href="data:application/manifest+json;base64,eyJuYW1lIjogIldlcndvbGYgS2FydGVuIiwgInNob3J0X25hbWUiOiAiV2Vyd29sZiIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGIwYjEyIiwgInRoZW1lX2NvbG9yIjogIiMwYjBiMTIiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxDanh6ZG1jZ2VHMXNibk05SjJoMGRIQTZMeTkzZDNjdWR6TXViM0puTHpJd01EQXZjM1puSnlCMmFXVjNRbTk0UFNjd0lEQWdNakF3SURJd01DYytDaUFnUEhKbFkzUWdkMmxrZEdnOUp6SXdNQ2NnYUdWcFoyaDBQU2N5TURBbklISjRQU2MwTUNjZ1ptbHNiRDBuSXpGaE1UVXlZU2N2UGdvZ0lEeDBaWGgwSUhnOUp6VXdKU2NnZVQwbk5UVWxKeUIwWlhoMExXRnVZMmh2Y2owbmJXbGtaR3hsSnlCbWIyNTBMWE5wZW1VOUp6RXlNQ2NnWkhrOUp5NHpaVzBuUHZDZmtMbzhMM1JsZUhRK0Nqd3ZjM1puUGdvPSIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCJ9XX0=" />
 
+<style>
+:root {
+  --bg: #06050a;
+  --panel: #0f0d14;
+  --muted: #9aa0a6;
+  --accent: #8b5cf6;
+  --accent-2: #6d28d9;
+  --glass: rgba(255, 255, 255, 0.04);
+  --card-w: 220px;
+  --card-h: 320px;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin:0; padding:14px; display:flex; align-items:center; justify-content:center; background: radial-gradient(800px 400px at 20% 10%, rgba(139,92,246,0.09), transparent), var(--bg); color:#edf0f6; font-family:-apple-system, BlinkMacSystemFont, "Inter", sans-serif; -webkit-font-smoothing: antialiased; }
+.app { width:100%; max-width:440px; }
+header { display:flex; gap:12px; align-items:center; margin-bottom:10px; }
+.logo { width:46px; height:46px; border-radius:12px; background: linear-gradient(135deg,var(--accent),var(--accent-2)); display:flex; align-items:center; justify-content:center; font-weight:700; box-shadow:0 8px 30px rgba(109,40,217,0.18);}
+h1 { font-size:18px; margin:0;}
+p.lead { margin:0; color:var(--muted); font-size:13px;}
+.card { background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:14px; padding:14px; box-shadow:0 6px 24px rgba(0,0,0,0.6);}
+.section { margin-bottom:12px; }
+.row { display:flex; gap:8px; align-items:center;}
+.btn { display:inline-block; padding:12px; border-radius:12px; border:none; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; font-weight:700; font-size:16px; width:100%; }
+.btn-ghost { background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted); padding:10px; border-radius:10px; width:100%; }
+.small { font-size:13px; color:var(--muted); }
+input[type="text"] { width:100%; padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit; font-size:16px; }
+
+.roles-list { display:flex; flex-direction:column; gap:8px; margin-top:8px; max-height:500px; overflow-y:auto; scroll-behavior:smooth; padding-right:4px; }
+.role-row { display:flex; align-items:center; gap:8px; padding:8px; border-radius:10px; background: rgba(255,255,255,0.02);}
+.role-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);}
+.role-name { flex:1; font-weight:600; }
+.role-controls { display:flex; align-items:center; gap:8px; }
+.count-btn { background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); border-radius:8px; width:36px; height:36px; color:white; font-size:18px; font-weight:700; }
+
+.players-grid { display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+.player-input { display:flex; gap:8px; align-items:center; }
+.player-input input { flex:1; padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit; font-size:16px; }
+
+.game-area { display:flex; flex-direction:column; align-items:center; gap:12px; padding-top:6px; }
+.deck { width:var(--card-w); height:var(--card-h); perspective:1100px; margin-top:4px; }
+.card-inner { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition: transform 0.65s cubic-bezier(0.2,0.9,0.3,1);}
+.flipped .card-inner { transform:rotateY(180deg);}
+.face { position:absolute; inset:0; border-radius:12px; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:14px; border:1px solid rgba(255,255,255,0.03);}
+.face.front { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
+.face.back { transform:rotateY(180deg); background:linear-gradient(180deg, rgba(109,40,217,0.16), rgba(139,92,246,0.06)); }
+.player-name { font-size:18px; font-weight:700; text-align:center; }
+.role-emoji { font-size:46px; margin-bottom:6px; }
+.role-label { font-size:18px; font-weight:700; }
+
+.controls { display:flex; flex-direction:column; gap:8px; width:100%; }
+.controls .row { display:flex; gap:8px; }
+.controls .row .btn, .controls .row .btn-ghost { flex:1; }
+
+.shuffle-anim { animation: shuffle 1.05s ease-in-out; }
+@keyframes shuffle { 0%{transform:translateY(0) rotate(0);} 25%{transform:translateY(-14px) rotate(-6deg);} 50%{transform:translateY(10px) rotate(6deg);} 75%{transform:translateY(-6px) rotate(-3deg);} 100%{transform:translateY(0) rotate(0);} }
+
+.center { display:flex; align-items:center; justify-content:center; }
+
+.modal { position:fixed; inset:0; background:rgba(5,5,10,0.9); display:flex; align-items:center; justify-content:center; padding:20px; }
+.modal .card { max-width:420px; width:100%; }
+
+footer { margin-top:10px; color:var(--muted); font-size:12px; text-align:center; }
+
+@media (max-width:420px){ :root{--card-w:200px; --card-h:300px;} body{padding:12px;} .logo{width:44px; height:44px;} }
+</style>
+</head>
+
+<body>
 <div class="app">
   <header>
     <div class="logo">🌙</div>
@@ -21,101 +92,61 @@
   <main>
     <!-- PREP CARD -->
     <section id="prepCard" class="card section">
-      <div
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        "
-      >
-        <div style="font-weight: 700">Vorbereitung</div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-weight:700">Vorbereitung</div>
       </div>
 
-      <div style="margin-left: 290px" class="row">
+      <div style="margin-left:290px" class="row">
         <div class="small">Gesamt-Karten</div>
-        <div id="totalCards" style="font-weight: 700; margin-left: 100">0</div>
+        <div id="totalCards" style="font-weight:700; margin-left:100px;">0</div>
       </div>
 
       <div class="roles-list" id="rolesList"></div>
 
-      <div style="margin-top: 15px" class="row">
-        <input
-          id="customRoleName"
-          placeholder="Eigene Rolle (z. B. Spion)"
-          type="text"
-        />
-        <input
-          id="customRoleEmoji"
-          placeholder="Emoji"
-          type="text"
-          style="width: 84px"
-        />
+      <div style="margin-top:15px" class="row">
+        <input id="customRoleName" placeholder="Eigene Rolle (z. B. Spion)" type="text" />
+        <input id="customRoleEmoji" placeholder="Emoji" type="text" style="width:84px" />
       </div>
-      <div style="margin-top: 8px" class="row">
-        <button id="addCustomRoleBtn" class="btn-ghost">
-          + Rolle hinzufügen
-        </button>
+      <div style="margin-top:8px" class="row">
+        <button id="addCustomRoleBtn" class="btn-ghost">+ Rolle hinzufügen</button>
       </div>
 
-      <div style="margin-top: 10px" class="row">
+      <div style="margin-top:10px" class="row">
         <button id="toPlayersBtn" class="btn">Weiter zu Spielern</button>
         <button id="resetRolesBtn" class="btn-ghost">Zurücksetzen</button>
       </div>
     </section>
 
     <!-- PLAYERS CARD -->
-    <section id="playersCard" class="card section" style="display: none">
-      <div
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        "
-      >
-        <div style="font-weight: 700">Spieler</div>
+    <section id="playersCard" class="card section" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-weight:700">Spieler</div>
         <div class="small">Gib Namen für jede Karte ein</div>
       </div>
-
       <div class="players-grid" id="playersGrid"></div>
 
-      <div style="margin-top: 10px" class="row">
-        <button id="assignBtn" class="btn">
-          Rollen zufällig zuweisen & Spiel starten
-        </button>
+      <div style="margin-top:10px" class="row">
+        <button id="assignBtn" class="btn">Rollen zufällig zuweisen & Spiel starten</button>
         <button id="backToPrepBtn" class="btn-ghost">Neue Runde</button>
       </div>
     </section>
 
     <!-- GAME CARD -->
-    <section id="gameCard" class="card section" style="display: none">
-      <div
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        "
-      >
-        <div style="font-weight: 700">Karten verteilen</div>
+    <section id="gameCard" class="card section" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-weight:700">Karten verteilen</div>
         <div class="small" id="progressLabel">0 / 0</div>
       </div>
-
-      <div class="small" style="margin-top: 6px"></div>
-
       <div class="game-area">
         <div id="deckWrap" class="deck center"></div>
-
-        <div class="controls" style="width: 100%">
+        <div class="controls" style="width:100%">
           <div class="row">
             <button id="prevBtn" class="btn-ghost">Zurück</button>
             <button id="nextBtn" class="btn">Nächster Spieler</button>
           </div>
           <div class="row">
-            <button id="revealBtn" class="btn-ghost">
-              Karten erneut anzeigen
-            </button>
-            <button id="masterBtn" class="btn-ghost">
-              Spielleiter-Übersicht
-            </button>
+            <button id="revealBtn" class="btn-ghost">Karten erneut anzeigen</button>
+            <button id="masterBtn" class="btn-ghost">Spielleiter-Übersicht</button>
           </div>
           <div class="row">
             <button id="toPrepBtn" class="btn-ghost">Neue Runde</button>
@@ -123,10 +154,13 @@
         </div>
       </div>
     </section>
-
-    <!-- FINISH / summary - hidden rendered dynamically -->
   </main>
 </div>
-
-<!-- modal container -->
 <div id="modalRoot"></div>
+
+<script>
+/* --- Hier kommt der JS-Code (wie von dir zuvor) --- */
+/* Rollenverwaltung: nur Plus/Minus, kein Input-Feld, Spielername bleibt auf Rückseite unverändert */
+</script>
+</body>
+</html>
