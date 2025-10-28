@@ -236,31 +236,87 @@
 
     /* Render Roles */
     function renderRoles(){
-      const list = $('#rolesList'); list.innerHTML='';
-      const all = state.roles.concat(state.customRoles);
-      all.forEach((r, idx)=>{
-        const row = document.createElement('div'); row.className='role-row';
-        const icon = document.createElement('div'); icon.className='role-icon'; icon.textContent = r.emoji || '✨';
-        const name = document.createElement('div'); name.className='role-name'; name.innerHTML = `<div>${r.name}</div><div class='small'>id: ${r.id || 'custom'+idx}</div>`;
-        const controls = document.createElement('div'); controls.className='role-controls';
+  const list = $('#rolesList'); list.innerHTML='';
+  const all = state.roles.concat(state.customRoles);
+  all.forEach((r, idx)=>{
+    const row = document.createElement('div'); 
+    row.className='role-row';
 
-        const num = document.createElement('input'); num.type='number'; num.min=0; num.value=r.count||0; num.style.width='86px'; num.addEventListener('input', ()=>{ r.count = Math.max(0, parseInt(num.value||0)||0); updateTotal(); });
+    const icon = document.createElement('div'); 
+    icon.className='role-icon'; 
+    icon.textContent = r.emoji || '✨';
 
-        const del = document.createElement('button'); del.className='btn-ghost'; del.style.width='44px'; del.textContent='✕'; del.title='Entfernen';
-        del.addEventListener('click', ()=>{
-          if(state.roles.includes(r)){
-            r.count = 0; num.value = 0; updateTotal();
-          } else {
-            state.customRoles = state.customRoles.filter(x=>x!==r); renderRoles(); updateTotal();
-          }
-        });
+    const name = document.createElement('div'); 
+    name.className='role-name'; 
+    name.textContent = r.name; // 🔹 ID entfernt
 
-        controls.appendChild(num); controls.appendChild(del);
-        row.appendChild(icon); row.appendChild(name); row.appendChild(controls);
-        list.appendChild(row);
-      });
+    const controls = document.createElement('div'); 
+    controls.className='role-controls';
+
+    // 🔹 Minus-Button
+    const minus = document.createElement('button');
+    minus.className = 'btn-ghost';
+    minus.style.width = '36px';
+    minus.textContent = '−';
+    minus.addEventListener('click', ()=>{
+      r.count = Math.max(0, (r.count || 0) - 1);
+      num.value = r.count;
       updateTotal();
-    }
+    });
+
+    // 🔹 Zahl-Feld
+    const num = document.createElement('input'); 
+    num.type = 'number'; 
+    num.min = 0; 
+    num.value = r.count || 0; 
+    num.style.width = '60px'; 
+    num.style.textAlign = 'center';
+    num.addEventListener('input', ()=>{
+      r.count = Math.max(0, parseInt(num.value || 0) || 0);
+      updateTotal();
+    });
+
+    // 🔹 Plus-Button
+    const plus = document.createElement('button');
+    plus.className = 'btn-ghost';
+    plus.style.width = '36px';
+    plus.textContent = '+';
+    plus.addEventListener('click', ()=>{
+      r.count = (r.count || 0) + 1;
+      num.value = r.count;
+      updateTotal();
+    });
+
+    // 🔹 Entfernen-Button
+    const del = document.createElement('button'); 
+    del.className = 'btn-ghost'; 
+    del.style.width = '44px'; 
+    del.textContent = '✕'; 
+    del.title = 'Entfernen';
+    del.addEventListener('click', ()=>{
+      if(state.roles.includes(r)){
+        r.count = 0; 
+        num.value = 0; 
+        updateTotal();
+      } else {
+        state.customRoles = state.customRoles.filter(x=>x!==r); 
+        renderRoles(); 
+        updateTotal();
+      }
+    });
+
+    controls.appendChild(minus);
+    controls.appendChild(num);
+    controls.appendChild(plus);
+    controls.appendChild(del);
+
+    row.appendChild(icon);
+    row.appendChild(name);
+    row.appendChild(controls);
+    list.appendChild(row);
+  });
+  updateTotal();
+}
 
     function updateTotal(){
       const all = state.roles.concat(state.customRoles);
