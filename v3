@@ -159,8 +159,144 @@ footer { margin-top:10px; color:var(--muted); font-size:12px; text-align:center;
 <div id="modalRoot"></div>
 
 <script>
-/* --- Hier kommt der JS-Code (wie von dir zuvor) --- */
-/* Rollenverwaltung: nur Plus/Minus, kein Input-Feld, Spielername bleibt auf Rückseite unverändert */
+// --- Rollenverwaltung mit Plus/Minus Buttons ---
+const roles = [];
+const rolesList = document.getElementById("rolesList");
+const totalCardsEl = document.getElementById("totalCards");
+
+function renderRoles() {
+  rolesList.innerHTML = "";
+  let total = 0;
+  roles.forEach((role, index) => {
+    total += role.count;
+    const row = document.createElement("div");
+    row.className = "role-row";
+
+    const icon = document.createElement("div");
+    icon.className = "role-icon";
+    icon.textContent = role.emoji || "🎭";
+
+    const name = document.createElement("div");
+    name.className = "role-name";
+    name.textContent = role.name;
+
+    const controls = document.createElement("div");
+    controls.className = "role-controls";
+
+    const minus = document.createElement("button");
+    minus.className = "count-btn";
+    minus.textContent = "-";
+    minus.onclick = () => {
+      if (role.count > 0) role.count--;
+      renderRoles();
+    };
+
+    const count = document.createElement("div");
+    count.className = "role-count";
+    count.textContent = role.count;
+
+    const plus = document.createElement("button");
+    plus.className = "count-btn";
+    plus.textContent = "+";
+    plus.onclick = () => {
+      role.count++;
+      renderRoles();
+    };
+
+    controls.appendChild(minus);
+    controls.appendChild(count);
+    controls.appendChild(plus);
+
+    row.appendChild(icon);
+    row.appendChild(name);
+    row.appendChild(controls);
+    rolesList.appendChild(row);
+  });
+  totalCardsEl.textContent = total;
+}
+
+document.getElementById("addCustomRoleBtn").onclick = () => {
+  const name = document.getElementById("customRoleName").value.trim();
+  const emoji = document.getElementById("customRoleEmoji").value.trim();
+  if (!name) return;
+  roles.push({ name, emoji, count: 1 });
+  renderRoles();
+  document.getElementById("customRoleName").value = "";
+  document.getElementById("customRoleEmoji").value = "";
+};
+
+document.getElementById("resetRolesBtn").onclick = () => {
+  roles.length = 0;
+  renderRoles();
+};
+
+// --- Spielerverwaltung ---
+const playersGrid = document.getElementById("playersGrid");
+const prepCard = document.getElementById("prepCard");
+const playersCard = document.getElementById("playersCard");
+const gameCard = document.getElementById("gameCard");
+
+document.getElementById("toPlayersBtn").onclick = () => {
+  prepCard.style.display = "none";
+  playersCard.style.display = "block";
+
+  // Spielerinputs generieren
+  playersGrid.innerHTML = "";
+  roles.forEach(role => {
+    for (let i = 0; i < role.count; i++) {
+      const div = document.createElement("div");
+      div.className = "player-input";
+      const input = document.createElement("input");
+      input.placeholder = "Spielername";
+      div.appendChild(input);
+      playersGrid.appendChild(div);
+    }
+  });
+};
+
+// --- Zuweisung der Rollen ---
+document.getElementById("assignBtn").onclick = () => {
+  const playerNames = Array.from(playersGrid.querySelectorAll("input")).map(i => i.value.trim() || "Spieler");
+  let allRoles = [];
+  roles.forEach(r => {
+    for (let i = 0; i < r.count; i++) allRoles.push(r);
+  });
+  // Rollen mischen
+  allRoles = allRoles.sort(() => Math.random() - 0.5);
+
+  const deckWrap = document.getElementById("deckWrap");
+  deckWrap.innerHTML = "";
+  allRoles.forEach((r, idx) => {
+    const card = document.createElement("div");
+    card.className = "card-inner";
+
+    const front = document.createElement("div");
+    front.className = "face front";
+    front.innerHTML = `<div class="role-emoji">${r.emoji||"🎭"}</div><div class="role-label">${r.name}</div>`;
+
+    const back = document.createElement("div");
+    back.className = "face back";
+    back.innerHTML = `<div class="player-name">${playerNames[idx]}</div>`;
+
+    card.appendChild(front);
+    card.appendChild(back);
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "deck";
+    wrapper.appendChild(card);
+    deckWrap.appendChild(wrapper);
+
+    wrapper.onclick = () => {
+      card.parentElement.querySelectorAll(".card-inner").forEach(c => c.classList.remove("flipped"));
+      card.classList.toggle("flipped");
+    };
+  });
+
+  playersCard.style.display = "none";
+  gameCard.style.display = "block";
+  document.getElementById("progressLabel").textContent = `0 / ${allRoles.length}`;
+};
+
 </script>
 </body>
 </html>
