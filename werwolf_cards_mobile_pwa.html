@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <!-- PWA Meta Tags für iPhone -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Werwolf Karten">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,CjxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMjAwIDIwMCc+CiAgPHJlY3Qgd2lkdGg9JzIwMCcgaGVpZ2h0PScyMDAnIHJ4PSc0MCcgZmlsbD0nIzFhMTUyYScvPgogIDx0ZXh0IHg9JzUwJScgeT0nNTUlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LXNpemU9JzEyMCcgZHk9Jy4zZW0nPvCfkLo8L3RleHQ+Cjwvc3ZnPgo=">
+  <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIldlcndvbGYgS2FydGVuIiwgInNob3J0X25hbWUiOiAiV2Vyd29sZiIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGIwYjEyIiwgInRoZW1lX2NvbG9yIjogIiMwYjBiMTIiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxDanh6ZG1jZ2VHMXNibk05SjJoMGRIQTZMeTkzZDNjdWR6TXViM0puTHpJd01EQXZjM1puSnlCMmFXVjNRbTk0UFNjd0lEQWdNakF3SURJd01DYytDaUFnUEhKbFkzUWdkMmxrZEdnOUp6SXdNQ2NnYUdWcFoyaDBQU2N5TURBbklISjRQU2MwTUNjZ1ptbHNiRDBuSXpGaE1UVXlZU2N2UGdvZ0lEeDBaWGgwSUhnOUp6VXdKU2NnZVQwbk5UVWxKeUIwWlhoMExXRnVZMmh2Y2owbmJXbGtaR3hsSnlCbWIyNTBMWE5wZW1VOUp6RXlNQ2NnWkhrOUp5NHpaVzBuUHZDZmtMbzhMM1JsZUhRK0Nqd3ZjM1puUGdvPSIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Werwolf Karten — Mobile</title>
+  <meta name="description" content="Mobile Web-App zum zufälligen Verteilen von Werwolf-Rollen mit Spielleiter-Übersicht."/>
+  <style>
+    :root{
+      --bg:#06050a;
+      --panel:#0f0d14;
+      --muted:#9aa0a6;
+      --accent:#8b5cf6;
+      --accent-2:#6d28d9;
+      --glass: rgba(255,255,255,0.04);
+      --card-w:220px;
+      --card-h:320px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background: radial-gradient(800px 400px at 20% 10%, rgba(139,92,246,0.09), transparent), var(--bg);
+      color:#edf0f6; font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      -webkit-font-smoothing:antialiased; padding:14px; display:flex; align-items:center; justify-content:center;
+    }
+    .app{width:100%;max-width:440px}
+    header{display:flex;flex-direction:row;gap:12px;align-items:center;margin-bottom:10px}
+    .logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 8px 30px rgba(109,40,217,0.18)}
+    h1{font-size:18px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); border-radius:14px; padding:14px; box-shadow:0 6px 24px rgba(0,0,0,0.6);}
+    .section{margin-bottom:12px}
+
+    input[type=number], input[type=text]{
+      width:100%; padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit; font-size:16px;
+    }
+    .row{display:flex;gap:8px;align-items:center}
+    .btn{display:inline-block;padding:12px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:700;font-size:16px;width:100%}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:10px;border-radius:10px;width:100%}
+    .small{font-size:13px;color:var(--muted)}
+
+    /* roles list */
+    .roles-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .role-row{display:flex;align-items:center;gap:8px;padding:8px;border-radius:10px;background:rgba(255,255,255,0.02)}
+    .role-icon{width:44px;height:44;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent)}
+    .role-name{flex:1;font-weight:600}
+    .role-controls{display:flex;gap:8px;align-items:center}
+
+    /* players */
+    .players-grid{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .player-input{display:flex;gap:8px;align-items:center}
+    .player-input input{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;font-size:16px}
+
+    /* deck */
+    .game-area{display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:6px}
+    .deck{width:var(--card-w);height:var(--card-h);perspective:1100px;margin-top:4px}
+    .card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.65s cubic-bezier(.2,.9,.3,1)}
+    .flipped .card-inner{transform:rotateY(180deg)}
+    .face{position:absolute;inset:0;border-radius:12px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;border:1px solid rgba(255,255,255,0.03)}
+    .face.front{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
+    .face.back{transform:rotateY(180deg);background:linear-gradient(180deg, rgba(109,40,217,0.16), rgba(139,92,246,0.06))}
+    .player-name{font-size:18px;font-weight:700;text-align:center}
+    .role-emoji{font-size:46px;margin-bottom:6px}
+    .role-label{font-size:18px;font-weight:700}
+
+    .controls{display:flex;flex-direction:column;gap:8px;width:100%}
+    .controls .row{display:flex;gap:8px}
+    .controls .row .btn, .controls .row .btn-ghost{flex:1}
+
+    .shuffle-anim{animation:shuffle 1.05s ease-in-out}
+    @keyframes shuffle{0%{transform:translateY(0) rotate(0)}25%{transform:translateY(-14px) rotate(-6deg)}50%{transform:translateY(10px) rotate(6deg)}75%{transform:translateY(-6px) rotate(-3deg)}100%{transform:translateY(0) rotate(0)}}
+
+    .center{display:flex;align-items:center;justify-content:center}
+
+    /* modal */
+    .modal{position:fixed;inset:0;background:rgba(5,5,10,0.9);display:flex;align-items:center;justify-content:center;padding:20px}
+    .modal .card{max-width:420px;width:100%}
+
+    footer{margin-top:10px;color:var(--muted);font-size:12px;text-align:center}
+
+    @media (max-width:420px){
+      :root{--card-w:200px;--card-h:300px}
+      body{padding:12px}
+      .logo{width:44px;height:44}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo">🌙</div>
+      <div>
+        <h1>Werwolf Karten</h1>
+        <p class="lead">Mobile — dunkel & mystisch. Tippe statt zu scrollen.</p>
+      </div>
+    </header>
+
+    <main>
+      <!-- PREP CARD -->
+      <section id="prepCard" class="card section">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-weight:700">Vorbereitung</div>
+          <div class="small">Konfiguriere Rollen</div>
+        </div>
+
+        <div class="small" style="margin-top:8px">Standardrollen (Anzahl anpassen). Füge eigene Rollen mit Emoji hinzu.</div>
+
+        <div class="roles-list" id="rolesList"></div>
+
+        <div style="margin-top:10px" class="row">
+          <input id="customRoleName" placeholder="Eigene Rolle (z. B. Spion)" type="text" />
+          <input id="customRoleEmoji" placeholder="Emoji" type="text" style="width:84px" />
+        </div>
+        <div style="margin-top:8px" class="row">
+          <button id="addCustomRoleBtn" class="btn-ghost">+ Rolle hinzufügen</button>
+        </div>
+
+        <div style="margin-top:10px" class="row">
+          <div class="small">Gesamt-Karten</div>
+          <div id="totalCards" style="font-weight:700;margin-left:auto">0</div>
+        </div>
+
+        <div style="margin-top:10px" class="row">
+          <button id="toPlayersBtn" class="btn">Weiter zu Spielern</button>
+          <button id="resetRolesBtn" class="btn-ghost">Zurücksetzen</button>
+        </div>
+      </section>
+
+      <!-- PLAYERS CARD -->
+      <section id="playersCard" class="card section" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-weight:700">Spieler</div>
+          <div class="small">Gib Namen für jede Karte ein</div>
+        </div>
+
+        <div class="players-grid" id="playersGrid"></div>
+
+        <div style="margin-top:10px" class="row">
+          <button id="assignBtn" class="btn">Rollen zufällig zuweisen & Spiel starten</button>
+          <button id="backToPrepBtn" class="btn-ghost">Neue Runde</button>
+        </div>
+      </section>
+
+      <!-- GAME CARD -->
+      <section id="gameCard" class="card section" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-weight:700">Karten verteilen</div>
+          <div class="small" id="progressLabel">0 / 0</div>
+        </div>
+
+        <div class="small" style="margin-top:6px">Tippe die Karte zum Umdrehen. Auto zurück nach 4s. Danach tippe Nächster.</div>
+
+        <div class="game-area">
+          <div id="deckWrap" class="deck center"></div>
+
+          <div class="controls" style="width:100%">
+            <div class="row">
+              <button id="prevBtn" class="btn-ghost">Zurück</button>
+              <button id="nextBtn" class="btn">Nächster Spieler</button>
+            </div>
+            <div class="row">
+              <button id="revealBtn" class="btn-ghost">Karten erneut anzeigen</button>
+              <button id="masterBtn" class="btn-ghost">Spielleiter-Übersicht</button>
+            </div>
+            <div class="row">
+              <button id="toPrepBtn" class="btn-ghost">Zur Rollenauswahl</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINISH / summary - hidden rendered dynamically -->
+
+    </main>
+
+    <footer>Tip: Für beste Erfahrung in Safari „Zum Home-Bildschirm“ hinzufügen.</footer>
+  </div>
+
+  <!-- modal container -->
+  <div id="modalRoot"></div>
+
+  <script>
+    /* App state and defaults */
+    const DEFAULT_ROLES = [
+      {id:'werewolf', name:'Werwolf', emoji:'🐺', count:1},
+      {id:'villager', name:'Dorfbewohner', emoji:'🧑', count:3},
+      {id:'seer', name:'Seherin', emoji:'🔮', count:1},
+      {id:'witch', name:'Hexe', emoji:'🧙‍♀️', count:1},
+      {id:'amor', name:'Amor', emoji:'💘', count:0},
+      {id:'blink', name:'Blinzelmädchen', emoji:'😉', count:0},
+    ];
+
+    const state = {
+      roles: JSON.parse(JSON.stringify(DEFAULT_ROLES)),
+      customRoles: [],
+      totalCards: 0,
+      players: [],
+      assignments: [],
+      currentIndex: 0,
+      autoFlipTimeout: null
+    };
+
+    /* Helpers */
+    const $ = s => document.querySelector(s);
+    const $all = s => Array.from(document.querySelectorAll(s));
+
+    /* Render Roles */
+    function renderRoles(){
+      const list = $('#rolesList'); list.innerHTML='';
+      const all = state.roles.concat(state.customRoles);
+      all.forEach((r, idx)=>{
+        const row = document.createElement('div'); row.className='role-row';
+        const icon = document.createElement('div'); icon.className='role-icon'; icon.textContent = r.emoji || '✨';
+        const name = document.createElement('div'); name.className='role-name'; name.innerHTML = `<div>${r.name}</div><div class='small'>id: ${r.id || 'custom'+idx}</div>`;
+        const controls = document.createElement('div'); controls.className='role-controls';
+
+        const num = document.createElement('input'); num.type='number'; num.min=0; num.value=r.count||0; num.style.width='86px'; num.addEventListener('input', ()=>{ r.count = Math.max(0, parseInt(num.value||0)||0); updateTotal(); });
+
+        const del = document.createElement('button'); del.className='btn-ghost'; del.style.width='44px'; del.textContent='✕'; del.title='Entfernen';
+        del.addEventListener('click', ()=>{
+          if(state.roles.includes(r)){
+            r.count = 0; num.value = 0; updateTotal();
+          } else {
+            state.customRoles = state.customRoles.filter(x=>x!==r); renderRoles(); updateTotal();
+          }
+        });
+
+        controls.appendChild(num); controls.appendChild(del);
+        row.appendChild(icon); row.appendChild(name); row.appendChild(controls);
+        list.appendChild(row);
+      });
+      updateTotal();
+    }
+
+    function updateTotal(){
+      const all = state.roles.concat(state.customRoles);
+      const total = all.reduce((s,r)=>s+(r.count||0),0);
+      state.totalCards = total;
+      $('#totalCards').textContent = total;
+    }
+
+    /* Add custom role */
+    $('#addCustomRoleBtn').addEventListener('click', ()=>{
+      const name = $('#customRoleName').value.trim();
+      const emoji = $('#customRoleEmoji').value.trim() || '✨';
+      if(!name){ alert('Bitte Namen eingeben'); return; }
+      const id = 'custom_'+Date.now();
+      state.customRoles.push({id,name,emoji,count:1});
+      $('#customRoleName').value=''; $('#customRoleEmoji').value='';
+      renderRoles();
+    });
+
+    /* Reset roles */
+    $('#resetRolesBtn').addEventListener('click', ()=>{
+      if(!confirm('Alle Rollenzahlen zurücksetzen?')) return;
+      state.roles.forEach(r=>r.count=0); state.customRoles=[]; renderRoles();
+    });
+
+    /* To players */
+    $('#toPlayersBtn').addEventListener('click', ()=>{
+      if(state.totalCards <= 0){ alert('Bitte Anzahl der Karten > 0 einstellen.'); return; }
+      // build players array with empty values
+      state.players = Array.from({length: state.totalCards}, (_,i)=>(''));
+      renderPlayersInputs();
+      $('#prepCard').style.display='none'; $('#playersCard').style.display='block';
+    });
+
+    function renderPlayersInputs(){
+      const grid = $('#playersGrid'); grid.innerHTML='';
+      state.players.forEach((p,i)=>{
+        const row = document.createElement('div'); row.className='player-input';
+        const input = document.createElement('input'); input.placeholder = 'Spieler ' + (i+1); input.value = p; input.addEventListener('input', ()=> state.players[i]=input.value);
+        const del = document.createElement('button'); del.className='btn-ghost'; del.textContent='✕'; del.style.width='56px'; del.addEventListener('click', ()=>{
+          state.players.splice(i,1); state.totalCards = state.players.length; $('#totalCards').textContent = state.totalCards; renderPlayersInputs();
+        });
+        row.appendChild(input); row.appendChild(del); grid.appendChild(row);
+      });
+
+      // entfernt: Spieler hinzufügen Button
+    }
+
+    $('#backToPrepBtn').addEventListener('click', ()=>{ $('#playersCard').style.display='none'; $('#prepCard').style.display='block'; renderRoles(); resetGame(); });
+
+    /* Assign roles logic */
+    $('#assignBtn').addEventListener('click', ()=>{
+      // ensure players have names
+      state.players = state.players.map((n,i)=> (n && n.trim()) ? n.trim() : ('Spieler '+(i+1)) );
+      // build pool
+      let pool = [];
+      state.roles.concat(state.customRoles).forEach(r=>{
+        for(let i=0;i<(r.count||0);i++) pool.push({id:r.id||r.name, name:r.name, emoji:r.emoji});
+      });
+      // adjust pool length
+      if(pool.length < state.players.length){
+        const diff = state.players.length - pool.length;
+        for(let i=0;i<diff;i++) pool.push({id:'villager', name:'Dorfbewohner', emoji:'🧑'});
+      } else if(pool.length > state.players.length){
+        pool = pool.slice(0, state.players.length);
+      }
+      // shuffle pool (Fisher-Yates)
+      for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+      // assign
+      state.assignments = state.players.map((p,i)=>({player:p, role:pool[i]}));
+      state.currentIndex = 0;
+      // show game screen
+      $('#playersCard').style.display='none'; $('#gameCard').style.display='block';
+      $('#progressLabel').textContent = (state.currentIndex+1) + ' / ' + state.assignments.length;
+      // show shuffle animation briefly
+      const deckWrap = $('#deckWrap');
+      deckWrap.innerHTML=''; const anim = createDeckElement(''); deckWrap.appendChild(anim);
+      deckWrap.classList.add('shuffle-anim');
+      setTimeout(()=>{ deckWrap.classList.remove('shuffle-anim'); renderCurrentCardFaceDown(); }, 900);
+    });
+
+    /* create deck dom element */
+    function createDeckElement(contentHtml){
+      const wrapper = document.createElement('div'); wrapper.className='deck center';
+      const inner = document.createElement('div'); inner.className='card-inner'; inner.id='cardInner';
+      inner.innerHTML = `
+        <div class="face front">
+          <div style="font-size:13px;color:var(--muted)">Karte für</div>
+          <div class="player-name" id="frontName"></div>
+          <div style="font-size:12px;color:var(--muted);margin-top:8px">Tippe zum Umdrehen</div>
+        </div>
+        <div class="face back">
+          <div class="role-emoji" id="roleEmoji"></div>
+          <div class="role-label" id="roleLabel"></div>
+          <div class="player-name" id="backName" style="margin-top:8px"></div>
+        </div>
+      `;
+      wrapper.appendChild(inner);
+      // click to flip
+      wrapper.addEventListener('click', ()=> toggleFlip(wrapper));
+      return wrapper;
+    }
+
+    function renderCurrentCardFaceDown(){
+      const deckWrap = $('#deckWrap'); deckWrap.innerHTML='';
+      const el = createDeckElement();
+      deckWrap.appendChild(el);
+      // set front name and back content but keep unflipped
+      const a = state.assignments[state.currentIndex];
+      if(!a) return;
+      el.querySelector('#frontName').innerText = a.player;
+      el.querySelector('#roleEmoji').innerText = a.role.emoji || '✨';
+      el.querySelector('#roleLabel').innerText = a.role.name;
+      el.querySelector('#backName').innerText = a.player;
+      // ensure unflipped
+      el.classList.remove('flipped');
+      // update progress
+      $('#progressLabel').textContent = (state.currentIndex+1) + ' / ' + state.assignments.length;
+    }
+
+    function toggleFlip(deckWrapper){
+      const inner = deckWrapper.querySelector('.card-inner');
+      const flipped = deckWrapper.classList.toggle('flipped');
+      // if flipped, set timer to auto-flip back after 4s
+      if(flipped){
+        if(state.autoFlipTimeout) clearTimeout(state.autoFlipTimeout);
+        state.autoFlipTimeout = setTimeout(()=>{
+          deckWrapper.classList.remove('flipped');
+          state.autoFlipTimeout = null;
+        }, 4000);
+      } else {
+        if(state.autoFlipTimeout){ clearTimeout(state.autoFlipTimeout); state.autoFlipTimeout = null; }
+      }
+    }
+
+    $('#nextBtn').addEventListener('click', ()=>{
+      // if card is still flipped, flip back then advance
+      const dw = $('#deckWrap').firstElementChild;
+      if(dw && dw.classList.contains('flipped')){ dw.classList.remove('flipped'); if(state.autoFlipTimeout){ clearTimeout(state.autoFlipTimeout); state.autoFlipTimeout=null; } setTimeout(()=>{ advanceIndex(); }, 350); }
+      else advanceIndex();
+    });
+
+    function advanceIndex(){
+      state.currentIndex++;
+      if(state.currentIndex >= state.assignments.length){
+        // finished - show finish options
+        renderFinishScreen();
+      } else {
+        renderCurrentCardFaceDown();
+      }
+    }
+
+    $('#prevBtn').addEventListener('click', ()=>{
+      if(state.currentIndex > 0){ state.currentIndex--; renderCurrentCardFaceDown(); }
+    });
+
+    /* Karten erneut anzeigen: do NOT reveal roles, just reset to first card face-down */
+    $('#revealBtn').addEventListener('click', ()=>{
+      if(!state.assignments.length) return;
+      state.currentIndex = 0;
+      renderCurrentCardFaceDown();
+    });
+
+    
+    // Button: Zur Rollenauswahl
+    $('#toPrepBtn').addEventListener('click', ()=>{
+      state.players = [];
+      state.assignments = [];
+      state.currentIndex = 0;
+      $('#gameCard').style.display='none';
+      $('#playersCard').style.display='none';
+      $('#prepCard').style.display='block';
+      renderRoles();
+    });
+
+
+    /* Spielleiter overview - confirm with a simple yes button */
+    $('#masterBtn').addEventListener('click', ()=>{
+      openMasterConfirmModal();
+    });
+
+    function openMasterConfirmModal(){
+      const modal = document.createElement('div'); modal.className='modal'; modal.id='masterModal';
+      modal.innerHTML = `<div class="card"><div style="font-weight:700;margin-bottom:8px">Spielleiter bestätigen</div><div class="small" style="margin-bottom:12px">Bist du sicher, dass du Spielleiter bist? Drücke <strong>Ja</strong>, um die Übersicht zu sehen.</div><div style="display:flex;gap:8px"><button id="masterYes" class="btn">Ja</button><button id="masterNo" class="btn-ghost">Abbrechen</button></div></div>`;
+      $('#modalRoot').appendChild(modal);
+      $('#masterNo').addEventListener('click', ()=> modal.remove());
+      $('#masterYes').addEventListener('click', ()=>{ modal.remove(); showMasterOverview(); });
+    }
+
+    function showMasterOverview(){
+      // render overview in modal
+      const modal = document.createElement('div'); modal.className='modal';
+      let html = `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:700">Spielleiter-Übersicht</div><div class="small">Gesamt: ${state.assignments.length}</div></div><div style="margin-top:8px" class="small">Übersicht aller Spielernamen und Rollen.</div><div style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px">`;
+      state.assignments.forEach(a=>{
+        html += `<div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:rgba(255,255,255,0.02)"><div style="font-size:28px">${a.role.emoji}</div><div><div style="font-weight:700">${escapeHtml(a.player)}</div><div class="small">${escapeHtml(a.role.name)}</div></div></div>`;
+      });
+      html += `</div><div style="display:flex;gap:8px;margin-top:12px"><button id="closeMaster" class="btn-ghost">Schließen</button><button id="exportCsv" class="btn">Export CSV</button></div></div>`;
+      modal.innerHTML = html;
+      $('#modalRoot').appendChild(modal);
+      $('#closeMaster').addEventListener('click', ()=> modal.remove());
+      $('#exportCsv').addEventListener('click', ()=> exportCSV());
+    }
+
+    function exportCSV(){
+      const rows = [['Player','Role','Emoji']];
+      state.assignments.forEach(a=> rows.push([a.player,a.role.name,a.role.emoji]));
+      const csv = rows.map(r=> r.map(c=> '"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+      const blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'werwolf_assignments.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+
+    /* Finish screen */
+    function renderFinishScreen(){
+      const deckWrap = $('#deckWrap'); deckWrap.innerHTML='<div style="text-align:center;font-weight:700;font-size:18px;">Alle Karten gezeigt</div>';
+    }
+
+    function assignBtn_restart(){
+      // reshuffle roles pool and reassign (keeping same roles counts)
+      let pool = [];
+      state.roles.concat(state.customRoles).forEach(r=>{
+        for(let i=0;i<(r.count||0);i++) pool.push({id:r.id||r.name, name:r.name, emoji:r.emoji});
+      });
+      if(pool.length < state.players.length){
+        const diff = state.players.length - pool.length;
+        for(let i=0;i<diff;i++) pool.push({id:'villager', name:'Dorfbewohner', emoji:'🧑'});
+      } else if(pool.length > state.players.length){
+        pool = pool.slice(0, state.players.length);
+      }
+      for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+      state.assignments = state.players.map((p,i)=>({player:p, role:pool[i]}));
+      state.currentIndex = 0;
+      renderCurrentCardFaceDown();
+    }
+
+    /* util */
+    function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    /* initial */
+    function resetGame(){
+      // Reset alles und zurück zur Rollenauswahl
+      state.players = [];
+      state.assignments = [];
+      state.currentIndex = 0;
+      $('#gameCard').style.display='none';
+      $('#playersCard').style.display='none';
+      $('#prepCard').style.display='block';
+      renderRoles();
+    }
+
+    renderRoles();
+  </script>
+</body>
+</html>
